@@ -3,11 +3,15 @@
  * @author Jon Woolfrey
  * @email  jonathan.woolfrey@gmail.com
  * @date   April 2025
- * @version 1.1
+ * @version 1.2
  * @brief  Starts ROS2 and runs the MuJoCoNode.
  * 
  * @details This contains the main() function for the C++ executable.
  *          Its purpose is to start ROS2 and an instance of the MuJoCoNode class.
+ *          The node itself runs across three threads: physics (this file starts it),
+ *          ROS executor spin (this file starts it), and rendering (runs on this,
+ *          the main, thread -- required since GLFW's OpenGL context must stay on
+ *          the thread that created the window).
  * 
  * @copyright Copyright (c) 2025 Jon Woolfrey
  * 
@@ -18,6 +22,7 @@
  */
 #include <mujoco_ros2/mujoco_ros.hpp>
 #include <iostream>
+#include <thread>
 
 int main(int argc, char *argv[])
 {
@@ -32,11 +37,17 @@ int main(int argc, char *argv[])
     
     try
     {
-        auto mujocoNode = std::make_shared<MuJoCoROS>(xmlPath);
+        auto mujocoNode = std::make_shared<MuJoCoROS>(xmlPath);                                     // Constructed on the main thread -- this is what creates the GLFW window
     
-        rclcpp::spin(mujocoNode);                                                                   // Run indefinitely
+        std::thread physicsThread(&MuJoCoROS::physics_loop, mujocoNode);                            // Steps the simulation and publishes joint state
+        std::thread rosThread([mujocoNode]() { rclcpp::spin(mujocoNode); });                        // Services the joint command subscription
         
-        rclcpp::shutdown();
+        mujocoNode->render_loop();                                                                  // Blocks here, on the main thread, until the window closes or shutdown is requested
+        
+        rclcpp::shutdown();                                                                         // Unblocks rclcpp::spin() on rosThread
+        
+        physicsThread.join();
+        rosThread.join();
         
         return 0; 
     }
