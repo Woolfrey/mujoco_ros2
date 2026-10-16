@@ -15,6 +15,25 @@ B -->|sensor_msgs/JointState|A
    <img src="doc/kuka.png" width="600" height="auto" alt="A screenshot of the package running with a 3D model." loading="lazy"/>
 </p>
 
+### ✨ New Features!
+
+Camera control with mouse buttons:
+
+<p align="center">
+   <img src="doc/camera_control.gif" width="400" height="auto" loading="lazy"/>
+</p>
+
+Sliders for direct joint control:
+
+<p align="center">
+   <img src="doc/joint_control.gif" width="400" height="auto" loading="lazy"/>
+</p>
+
+And torque control was validated 💪
+
+> [!WARNING]
+> Torque control is _very_ sensitive to the MuJoCo model parameters; so ensure the dynamic model, and joint collision properties are accurate, and robust.
+
 #### :compass: Navigation
 
 - [Dependencies](#link-dependencies)
