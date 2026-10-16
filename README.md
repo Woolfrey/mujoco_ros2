@@ -20,13 +20,13 @@ B -->|sensor_msgs/JointState|A
 Camera control with mouse buttons:
 
 <p align="center">
-   <img src="doc/camera_control.gif" width="400" height="auto" loading="lazy"/>
+   <img src="doc/camera_control.gif" width="300" height="auto" loading="lazy"/>
 </p>
 
 Sliders for direct joint control:
 
 <p align="center">
-   <img src="doc/joint_control.gif" width="400" height="auto" loading="lazy"/>
+   <img src="doc/joint_control.gif" width="300" height="auto" loading="lazy"/>
 </p>
 
 And torque control was validated 💪
