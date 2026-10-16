@@ -1,20 +1,18 @@
 # :bridge_at_night: MuJoCo - ROS2
 
-This package enables a basic MuJoCo simulation environment with ROS2 communication channels for controlling a robot. It publishes a `sensor_msgs/msg/JointState` topic containing the position, velocity, and effort of the joints, and accepts commands via a `std_msgs::Float64MultiArray` topic. It can run in `POSITION`, `VELOCITY`, or `TORQUE` mode which can be set as a parameter in a launch file.
+This package enables basic ROS2 communication with the [MuJoCo](https://mujoco.org/) simulation environment to control a robot. It publishes a `sensor_msgs/msg/JointState` topic containing the position, velocity, and effort of the joints, and accepts commands via a `std_msgs::Float64MultiArray` topic. It can run in `POSITION`, `VELOCITY`, or `TORQUE` mode which can be set as a parameter in a launch file.
 
-<p align="center">
-   <img src="doc/mujoco_node.png" width="600" height="auto" alt="Diagram showing interaction with mujoco node."/>
-   <br>
-   <em>Figure 1: Your custom control node can interact with the mujoco node through two topics.</em>
-</p>
+```mermaid
+flowchart LR
+A[Your ROS2 Node] -->|std_msgs/Float64MultiArray|B[MuJoCo Node]
+B -->|sensor_msgs/JointState|A
+```
 
 >[!TIP]
 > There are many robot models available in the [Google DeepMind MuJoCo Menagerie](https://github.com/google-deepmind/mujoco_menagerie.git).
 
 <p align="center">
-   <img src="doc/kuka.png" width="800" height="auto" alt="A screenshot of the package running with a 3D model."/>
-   <br>
-   <em>Figure 2: The Kuka iiwa14 model from the MuJoCo Menagerie.</em>
+   <img src="doc/kuka.png" width="600" height="auto" alt="A screenshot of the package running with a 3D model." loading="lazy"/>
 </p>
 
 #### :compass: Navigation
@@ -24,8 +22,6 @@ This package enables a basic MuJoCo simulation environment with ROS2 communicati
 - [Launching the Simulation](#rocket-launching-the-simulation)
 - [Contributing](#handshake-contributing)
 - [License](#scroll-license)
-
-[:top: Back to top.](#bridge_at_night-mujoco---ros2)
 
 ## :link: Dependencies
 
@@ -68,6 +64,7 @@ Ensure that you have ROS2 and MuJoCo installed on your system.
    Change all instances of `opt/mujoco/mujoco-3.2.0` to match your installation location, and your version.
 
 4. **Install GLFW:**
+
 ```
    sudo apt-get install libglfw3-dev
 ```
@@ -167,8 +164,6 @@ And you should see the following:
 
 <p align="center">
    <img src="doc/example.png" width="800" height="auto" alt="Diagram showing results of example launch file."/>
-   <br>
-   <em>Figure 3: Using the launch example generates a 2-link planar robot, with ROS2 communication channels.</em>
 </p>
 
 You can check the topics are available, and see the output for the joint state being published:
@@ -178,9 +173,6 @@ ros2 topic echo /joint_state
 ```
 
 You can alter the parameters to your liking.
-
-> [!NOTE]
-> So far I've only tested VELOCITY mode robustly. TORQUE mode did work, but my controller hadn't been properly tuned. It will be double-checked in the near future.
 
 [:top: Back to top.](#bridge_at_night-mujoco---ros2)
 
@@ -193,10 +185,10 @@ Contributions to this repositore are welcome! Feel free to:
 
 If you're looking for ideas, you can always check the [Issues tab](https://github.com/Woolfrey/mujoco_ros2/issues) for those with :raising_hand: [OPEN]. These are things I'd like to implement, but don't have time for. It'd be much appreciated, and you'll be tagged as a contributor :sunglasses:
 
-[:top: Back to top.](#building_construction-software-template-repository)
+[:top: Back to top.](#bridge_at_night-mujoco---ros2)
 
 ## :scroll: License
 
 This software package is licensed under the [GNU General Public License v3.0 (GPL-3.0)](https://choosealicense.com/licenses/gpl-3.0/). You are free to use, modify, and distribute this package, provided that any modified versions also comply with the GPL-3.0 license. All modified versions must make the source code available and be licensed under GPL-3.0. The license also ensures that the software remains free and prohibits the use of proprietary restrictions such as Digital Rights Management (DRM) and patent claims. For more details, please refer to the [full license text](LICENSE).
 
-[:top: Back to top.](#building_construction-software-template-repository)
+[:top: Back to top.](#bridge_at_night-mujoco---ros2)
